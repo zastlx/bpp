@@ -1,0 +1,22 @@
+// ==UserScript==
+// @name         BBB
+// @description  The next best multitool for blacket.org.
+// @version      1.0
+// @icon         https://blacket.org/content/logo.png
+
+// @author       zastix, thonk, alicialol
+// @namespace    https://zastix.club/
+
+// @match        *://*.blacket.org/*
+// @match        *://*.blacket.xotic.org/*
+// @match        *://*.blacket.monkxy.com/*
+
+// @grant unsafeWindow
+// @grant GM_xmlhttpRequest
+
+// @run-at document-body
+// ==/UserScript==
+
+(function() {
+    {{code}}
+})();
