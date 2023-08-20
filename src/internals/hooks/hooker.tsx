@@ -1,6 +1,7 @@
 // document.ben[ =. =+__ (console, = _}
 import eventManager from "../events";
 import hookSettings from "./settings";
+import hookCredits from "./credits";
 
 export default () => {
     switch (location.pathname) {
@@ -11,7 +12,7 @@ export default () => {
         }
         case "/credits":
         case "/credits/": {
-            //eventManager.subscribe("CreditsLoaded", () => hookCredits)
+            eventManager.subscribe("CreditsLoaded", () => hookCredits(".arts__profileBody___eNPbH-camelCase"))
             break;
         }
         default:

@@ -14,16 +14,29 @@ const definePlugin = (rawPlugin: PluginDef) => {
     const plugin = rawPlugin as Plugin;
     plugin.started = false;
     if (plugin.patches) {
-        patches.push(...plugin.patches.map((patch) => {
+        plugin.patches = plugin.patches.map((patch) => {
             return {
                 ...patch,
                 plugin: plugin.name
             } as Patch;
-        }));
+        });
+
+        patches.push(...plugin.patches);
     }
+
     plugins[plugin.name] = plugin;
 
     return plugin;
 }
 
+const startPlugins = (predicate: (plugin: Plugin) => boolean = (plugin: Plugin) => true) => {
+    for (const pluginKey in BPP.Plugins) {
+        const plugin = BPP.Plugins[pluginKey]; 
+        
+        if (predicate(plugin)) plugin.start();
+        plugin.started = true;
+    }
+};
+
 export default definePlugin;
+export { startPlugins };

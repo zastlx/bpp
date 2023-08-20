@@ -12,6 +12,7 @@ export default () => {
     const logger = new Logger("Patcher")
     const scripts = Array.from(document.querySelectorAll("script"));
     const files: FileIDKWHATTOCALLTHIS[] = [];
+    let errors = 0;
     const patches = BPP.Patches;
 
     scripts.forEach(async (script) => {
@@ -30,11 +31,12 @@ export default () => {
             script.removeAttribute("src");
         } catch (error) {
             logger.error(`Error patching ${script.src}, ignoring file.`);
+            errors++;
         }
     });
 
     function init() {
-        if (scripts.length - 1 !== files.length) return setTimeout(init, 1);
+        if (scripts.length - errors !== files.length) return setTimeout(init, 1);
 
         for (const patch of patches) {
             const file = files.find((e) => e.name === patch.file);

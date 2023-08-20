@@ -1,3 +1,7 @@
+import { EventManager } from "internals/events";
+import ReactDOM from "react-dom/client";
+import React from "react";
+
 export interface PatchReplacement {
     match: string | RegExp;
     replace: string;
@@ -11,18 +15,12 @@ export interface Patch {
 
 export interface Global {
     Common: {
-        React: React;
-        ReactDOM: ReactDOM;
+        React: typeof React;
+        ReactDOM: typeof ReactDOM
     };
     Plugins: { [name: string]: Plugin };
     Patches: Patch[];
-}
-
-export interface BlacketCredit {
-    user: int;
-    nickname: string;
-    image: string;
-    note: string;
+    Dispatcher: EventManager;
 }
 
 export interface BlacketPage {
@@ -58,6 +56,11 @@ export interface BlacketConfig {
     welcome: string;
 }
 
+export interface BlacketUserMisc {
+    opened: number;
+    messages: number;
+}
+
 export interface BlacketUser {
     id: number;
     username: string;
@@ -65,6 +68,16 @@ export interface BlacketUser {
     color: string;
     avatar: string;
     banner: string;
+    created: number;
+    modified: number;
+    badges: string[];
+    blooks: UserBlooks;
+    tokens: number;
+    exp: number;
+    mute: BlacketMute | null;
+    ban: BlacketBan | null;
+    misc: BlacketUserMisc;
+    friends: number;
 }
 
 export interface BlacketToast {
@@ -87,7 +100,7 @@ export interface BlacketSocket extends WebSocket {
     on(type: string, callback: Function): void;
 }
 
-export interface Blooks {
+export interface UserBlooks {
     [key: string]: number;
 }
 
@@ -99,13 +112,13 @@ export interface BlacketLocalUser extends BlacketUser {
     badges: string[];
     friends: number[];
     inventory: string[];
-    blooks: Blooks;
+    blooks: UserBlooks;
     blocks: number[];
     created: number;
     perms: string[];
     settings: {
         friends: "on" | "off" | "friends";
-        requests: "on" ;
+        requests: "on" | "mutuals";
     }
 }
 
@@ -121,6 +134,40 @@ export interface BlacketBan extends BlacektPunishment {
 
 export interface BlacketMute extends BlacektPunishment {
     muted: boolean;
+}
+
+export interface BlacketPack {
+    price: number;
+    color1: string;
+    color2: string;
+    image: string;
+    blooks: string[];
+    hidden: boolean;
+}
+
+export type BlacketRarityAnimation = "none" | "uncommon" | "rare" | "epic" | "legendary" | "chroma" | "mystical";
+export type BlacketRarites = "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary" | "Chroma" | "Unique" | "Mystical" | "Iridescent"
+
+export interface BlacketRarity {
+    color: string;
+    animation: BlacketRarityAnimation;
+    exp: number;
+    wait: number;
+}
+
+export interface BlacketBlook {
+    rarity: BlacketRarites;
+    chance: number;
+    price: number;
+    image: string;
+    art: string;
+}
+
+export interface BlacketCredit {
+    nickname: string;
+    image: string;
+    note: string;
+    user: BlacketUser;
 }
 
 export interface Blacket {
@@ -143,6 +190,10 @@ export interface Blacket {
     stopLoading(): void;
     toasts: BlacketToast[];
     user: BlacketLocalUser;
+    packs: { [key: string]: BlacketPack };
+    rarities: { [key: string]: BlacketRarity };
+    blooks: { [key: string]: BlacketBlook };
+    credits: BlacketCredit[];
 }
 
 export interface FileIDKWHATTOCALLTHIS {
@@ -169,16 +220,11 @@ export interface PluginDef {
     start?(): void;
     stop?(): void;
     patches?: Omit<Patch, "plugin">[];
-    /**
-     * List of commands. If you specify these, you must add CommandsAPI to dependencies
-     */
     commands?: Command[];
     dependencies?: string[],
-    /**
-     * Whether this plugin is required and forcefully enabled
-     */
     required?: boolean;
-    [key: string]: function;
+    page: string | string[];
+    [key: string]: any;
 }
 
 export interface PluginConfig {
