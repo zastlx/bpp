@@ -1,7 +1,7 @@
 import definePlugin from "@utils/plugins";
 import blacket from "@api/blacket";
 
-export default () => definePlugin({
+export default() => definePlugin({
     name: "ViewUserBlooks",
     description: "Allows you to easily view a user's blooks from the Blooks page.",
     authors: [
@@ -11,8 +11,6 @@ export default () => definePlugin({
         }
     ],
     start() {
-        if (location.pathname !== '/blooks') return;
-
         document.body.innerHTML += `<style>
             .styles__left___9beun-camelCase {
                 position: absolute;
@@ -74,40 +72,46 @@ export default () => definePlugin({
                             cursor: 'auto'
                         };
                         else {
-                            let quantity: Number;
-                            if (blacket().rarities[blacket().blooks[blook[1]].rarity].color == "rainbow") quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-image: url('/content/rainbow.gif');">${unsafeWindow.blacket.user.blooks[blook[1]].toLocaleString()}</div></div>`;
-                  else quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-color: ${unsafeWindow.blacket.rarities[unsafeWindow.blacket.blooks[blook[1]].rarity].color};">${unsafeWindow.blacket.user.blooks[blook[1]].toLocaleString()}</div></div>`;
-                  locked = {
-                    class: ``,
-                    i: ``,
-                    quantity: quantity,
-                    cursor: 'pointer'
-                  };
-                };
-                $(`#${packId}`).append(`<div id="${blook[1].replaceAll(' ', '-').replaceAll("'", "_")}" class="styles__blookContainer___3JrKb-camelCase" style="cursor: ${locked.cursor}" role="button" tabindex="0"><div class="styles__blookContainer___36LK2-camelCase styles__blook___bNr_t-camelCase ${locked.class}"><img loading="lazy" src="${unsafeWindow.blacket.blooks[blook[1]].image}" draggable="false" class="styles__blook___1R6So-camelCase" /></div>${locked.i}${locked.quantity}`);
-                $(`#${blook[1].replaceAll(' ', '-').replaceAll("'", "_")}`).click(function() {
-                  if (this.children[0].classList.contains(`styles__lockedBlook___3oGaX-camelCase`)) return;
-                  unsafeWindow.blacket.selectBlook(blook[1]);
-                });
-              });
-            });
+                            let quantity: String;
+                            if (blacket().rarities[blacket().blooks[blook[1]].rarity].color == "rainbow") quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-image: url('/content/rainbow.gif');">${blacket().user.blooks[blook[1]].toLocaleString()}</div></div>`;
+                            else quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-color: ${blacket().rarities[blacket().blooks[blook[1]].rarity].color};">${blacket().user.blooks[blook[1]].toLocaleString()}</div></div>`;
+                            locked = {
+                                class: ``,
+                                i: ``,
+                                quantity: quantity,
+                                cursor: 'pointer'
+                            };
+                        };
+                        _document.querySelector(`#${packId}`).insertAdjacentHTML('beforeend', `
+                          <div id="${blook[1].replaceAll(' ', '-').replaceAll("'", "_")}" class="styles__blookContainer___3JrKb-camelCase" style="cursor: ${locked.cursor}" role="button" tabindex="0">
+                            <div class="styles__blookContainer___36LK2-camelCase styles__blook___bNr_t-camelCase ${locked.class}">
+                              <img loading="lazy" src="${blacket().blooks[blook[1]].image}" draggable="false" class="styles__blook___1R6So-camelCase" />
+                            </div>
+                            ${locked.i}${locked.quantity}
+                        `);
+                        _document.querySelector(`#${blook[1].replaceAll(' ', '-').replaceAll("'", "_")}`).addEventListener('click', () => {
+                          if (this.children[0].classList.contains(`styles__lockedBlook___3oGaX-camelCase`)) return;
+                          blacket().selectBlook(blook[1]);
+                      });
+                     });
+                  });
 
-            let uncatogorizedBlooks = [];
-            Object.keys(unsafeWindow.blacket.user.blooks).forEach(blook => {
-              if (!unsafeWindow.blacket.packBlooks.includes(blook) && unsafeWindow.blacket.blooks[blook]) uncatogorizedBlooks.push(blook);
-            });
+                  let uncatogorizedBlooks = [];
+                  Object.keys(blacket().user.blooks).forEach(blook => {
+                      if (!packBlooks.includes(blook) && blacket().blooks[blook]) uncatogorizedBlooks.push(blook);
+                   });
 
             if (uncatogorizedBlooks.length > 0) {
               let packId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 16);
-              $(".styles__blooksHolder___3qZR1-camelCase").append(`<div class="styles__setHolder___rVq3Z-camelCase"><div class="styles__setTop___wIaVS-camelCase"><div class="styles__setTopBackground___342Wr-camelCase" style="background-image: url('/content/blookTile.png');"></div><div class="styles__setText___1PQLQ-camelCase">Miscellaneous</div><div class="styles__setDivider___3da0c-camelCase"></div></div><div id="${packId}" class="styles__setBlooks___3xamH-camelCase"></div></div>`);
+              _document.querySelector(`.styles__blooksHolder___3qZR1-camelCase`).insertAdjacentHTML('beforeend', `<div class="styles__setHolder___rVq3Z-camelCase"><div class="styles__setTop___wIaVS-camelCase"><div class="styles__setTopBackground___342Wr-camelCase" style="background-image: url('/content/blookTile.png');"></div><div class="styles__setText___1PQLQ-camelCase">Miscellaneous</div><div class="styles__setDivider___3da0c-camelCase"></div></div><div id="${packId}" class="styles__setBlooks___3xamH-camelCase"></div></div>`);
               uncatogorizedBlooks.forEach(blook => {
-                if (!unsafeWindow.blacket.blooks[blook]) return;
+                if (!blacket().blooks[blook]) return;
                 let quantity;
-                if (unsafeWindow.blacket.rarities[unsafeWindow.blacket.blooks[blook].rarity] && unsafeWindow.blacket.rarities[unsafeWindow.blacket.blooks[blook].rarity].color == "rainbow") quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-image: url('/content/rainbow.gif');">${unsafeWindow.blacket.user.blooks[blook].toLocaleString()}</div></div>`;
-                else quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-color: ${unsafeWindow.blacket.rarities[unsafeWindow.blacket.blooks[blook].rarity].color};">${unsafeWindow.blacket.user.blooks[blook].toLocaleString()}</div></div>`;
-                $(`#${packId}`).append(`<div id="${blook.replaceAll(' ', '-').replaceAll("'", "_")}" class="styles__blookContainer___3JrKb-camelCase" style="cursor: pointer" role="button" tabindex="0"><div class="styles__blookContainer___36LK2-camelCase styles__blook___bNr_t-camelCase"><img loading="lazy" src="${unsafeWindow.blacket.blooks[blook].image}" draggable="false" class="styles__blook___1R6So-camelCase" /></div>${quantity}`);
-                $(`#${blook.replaceAll(' ', '-').replaceAll("'", "_")}`).click(function() {
-                  unsafeWindow.blacket.selectBlook(blook);
+                if (blacket().rarities[blacket().blooks[blook].rarity] && blacket().rarities[blacket().blooks[blook].rarity].color == "rainbow") quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-image: url('/content/rainbow.gif');">${blacket().user.blooks[blook].toLocaleString()}</div></div>`;
+                else quantity = `<div class="styles__blookText___3AMdK-camelCase" style="background-color: ${blacket().rarities[blacket().blooks[blook].rarity].color};">${blacket().user.blooks[blook].toLocaleString()}</div></div>`;
+                _document.querySelector(`#${packId}`).insertAdjacentHTML('beforeend', `<div id="${blook.replaceAll(' ', '-').replaceAll("'", "_")}" class="styles__blookContainer___3JrKb-camelCase" style="cursor: pointer" role="button" tabindex="0"><div class="styles__blookContainer___36LK2-camelCase styles__blook___bNr_t-camelCase"><img loading="lazy" src="${blacket().blooks[blook].image}" draggable="false" class="styles__blook___1R6So-camelCase" /></div>${quantity}`);
+                _document.querySelector(`#${blook.replaceAll(' ', '-').replaceAll("'", "_")}`).addEventListener('click', () => {
+                  blacket().selectBlook(blook);
                 });
               });
             };
@@ -116,5 +120,6 @@ export default () => definePlugin({
     },
     stop() {
         console.log("zastix smells of rat shit");
-    }
+    },
+    page: ['/blooks', '/blooks/']
 });
