@@ -27,7 +27,7 @@ const CreditsComponent = () => {
                 <div className="styles__creditsContainer___fkEnvi-camelCase">
                     {
                     isNormal ? 
-                        (blacketCredits.map((credit: BlacketCredit) => {
+                        (blacketCredits.map((credit: ({ url: string } & BlacketCredit)) => {
                             // i cant see his name with his normal color
                             if (credit.nickname === "Ash886") credit.user.color = "rgb(111 111 111)";
 
@@ -37,7 +37,7 @@ const CreditsComponent = () => {
                         }))
                     : (BPPCredits.map((credit) => {
                         return (
-                            <CreditComponent key={credit.user.username} name={credit.user.username} role={credit.user.role} img={credit.image ?? credit.user.avatar} note={credit.note} color={credit.user.color} raw={credit}/>
+                            <CreditComponent key={credit.user.username} url={credit.url} name={credit.user.username} role={credit.user.role} img={credit.image ?? credit.user.avatar} note={credit.note} color={credit.user.color} raw={credit}/>
                         );
                     }))
                 }

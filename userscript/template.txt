@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         BBB
-// @description  The next best multitool for blacket.org.
+// @description  The next best client modification for blacket.org
 // @version      1.0
 // @icon         https://blacket.org/content/logo.png
 

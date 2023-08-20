@@ -40,14 +40,29 @@ export default () => {
 
         for (const patch of patches) {
             const file = files.find((e) => e.name === patch.file);
-            if (!file) continue;
-            const oldData = file.data;
-            
+            const pluginReference = `BPP.Plugins["${patch.plugin}"]`;
+        
+            if (!file) continue
+        
+            if (!Array.isArray(patch.replacement)) {
+                const matchRegex = new RegExp(patch.replacement.match, "g");
+                const replaceString = patch.replacement.replace.replaceAll("$self", pluginReference);
+                if (!matchRegex.test(file.data)) return logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`)
+
+                file.data = file.data.replaceAll(matchRegex, replaceString);
+            } else {
+                for (const replacement of patch.replacement) {
+                    const matchRegex = new RegExp(replacement.match, "g");
+                    const replaceString = replacement.replace.replaceAll("$self", pluginReference);
+                    if (!matchRegex.test(file.data)) return logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`)
+                    
+                    file.data = file.data.replaceAll(matchRegex, replaceString);
+                }
+            }
+        
             file.patches.push(patch.plugin);
-            if (Array.isArray(patch.replacement)) patch.replacement.forEach((replacement: PatchReplacement) => file.data = file.data.replaceAll(new RegExp(replacement.match, "g"), replacement.replace.replaceAll("$self", `BPP.Plugins["${patch.plugin}"]`)))
-            else file.data = file.data.replaceAll(new RegExp(patch.replacement.match, "g"), patch.replacement.replace.replaceAll("$self", `BPP.Plugins["${patch.plugin}"]`));
-            if (file.data === oldData) !Array.isArray(patch.replacement) ? logger.log(`Patch by ${patch.plugin} "${patch.replacement.match}" had no effect.`) : ">-<";
         }
+        
 
         for (const file of files) {
             const url = URL.createObjectURL(new Blob([

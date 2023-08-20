@@ -2,12 +2,13 @@ import BPP from "@api/global";
 import { BlacketCredit } from "@utils/types";
 import { useEffect } from "react";
 
-export default ({role, name, note, img, color, raw}: {
+export default ({role, name, note, img, color, raw, url}: {
     role: string;
     name: string;
     note: string;
     img: string;
     color: string;
+    url?: string;
     raw: BlacketCredit;
 }) => {
     useEffect(() => {
@@ -16,7 +17,7 @@ export default ({role, name, note, img, color, raw}: {
     
     return (
         <div onClick={() => {
-            BPP.Plugins["Internals"].hooks.credits.hooks.modal(raw);
+            BPP.Plugins["Internals"].hooks.credits.hooks.modal(raw, url ?? `/stats?name=${name}`);
         }} className="styles__creditsCreditContainer___bej3a-camelCase">
             <img className="styles__creditsCreditAvatar___4939A-camelCase" src={img} draggable="false" />
             <div style={{

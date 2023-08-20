@@ -27,7 +27,15 @@ export default() => definePlugin({
                 {
                     match: /\$\(\`#\${id}\`\)\.click\(\(\)/,
                     replace: "$self.hooks.credits.hooks.modal=((credit)"
-                }
+                },
+                {
+                    match: /\(\(credit\)\ \=\>\ \{/,
+                    replace: "(function(credit){"
+                },
+                {
+                    match: /\=\"\/stats\?name\=\$\{credit\.user\.username\}\"/,
+                    replace: "=\"${arguments[1]}\""
+                },
             ]
         },
         {
