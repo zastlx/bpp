@@ -13,8 +13,29 @@ const BPP: Global = {
         React: react,
         ReactDOM: ReactDOM
     },
-    Plugins: {},
-    Patches: [],
+    Plugins: {
+        loadedRequirments: [],
+        plugins: [],
+        startAll: (predicate = () => true) => {
+            for (const pluginKey in BPP.Plugins) {
+                const plugin = BPP.Plugins[pluginKey];
+                
+                if (predicate(plugin)) plugin.start();
+                plugin.started = true;
+            }
+        }
+    },
+    Patcher: {
+        files: [],
+        patches: [],
+        testPatch: function(replacement, filename) {
+            const file = BPP.Patcher.files.find((e) => e.name === filename);
+            if (!file) return false;
+            
+            const matchRegex = new RegExp(replacement.match, "g");
+            return matchRegex.test(file.data);
+        }
+    },
     Dispatcher: eventManager
 };
 //@ts-expect-error define global

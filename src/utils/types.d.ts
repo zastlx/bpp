@@ -13,13 +13,23 @@ export interface Patch {
     replacement: PatchReplacement | PatchReplacement[];
 }
 
+export type startAllPredicate = (plugin: Plugin) =>  boolean;
+
 export interface Global {
     Common: {
         React: typeof React;
         ReactDOM: typeof ReactDOM
     };
-    Plugins: { [name: string]: Plugin };
-    Patches: Patch[];
+    Plugins: {
+        loadedRequirments: requires[];
+        plugins: Plugin[];
+        startAll: (startAllPredicate) => void;
+    };
+    Patcher: {
+        files: FileIDKWHATTOCALLTHIS[];
+        patches: Patch[];
+        testPatch: (patch: PatchReplacement, filename: string) => boolean;
+    } 
     Dispatcher: EventManager;
 }
 
@@ -170,6 +180,27 @@ export interface BlacketCredit {
     user: BlacketUser;
 }
 
+export interface BlacketTweomji {
+    emoji: string;
+    name: string;
+    shortname: string;
+    unicode: string;
+    html: string;
+    category: string;
+    order: string;
+}
+
+export interface BlacketEmoji {
+    image: string;
+}
+
+export interface BlacketBadge {
+    image: string;
+    description: string;
+}
+
+export type BlacketRooms = "global" | "trade" | "bot" | "staff";
+
 export interface Blacket {
     config: BlacketConfig;
     createToast(toast: BlacketToast, queued: boolean): void;
@@ -194,6 +225,40 @@ export interface Blacket {
     rarities: { [key: string]: BlacketRarity };
     blooks: { [key: string]: BlacketBlook };
     credits: BlacketCredit[];
+    badges: { [key: string]: BlacketBadge };
+    setUser: (user: BlacketUser) => void;
+    appendBlooks: (search: string) => void;
+    listBlook: (price: number) => void;
+    selectBlook: (blook: string) => void;
+    sellBlook: (blook: string) => void;
+    getBazaar: (search: string) => void;
+    appendBanners: (search: string) => void;
+    getUser: (user: string | number) => void;
+    setBanner: (banner: string) => void;
+    setBlook: (blook: string) => void;
+    appendChat: (data: {
+        error: boolean;
+        type: "chat";
+        user: Partial<BlacketUser>;
+        message: string;
+        id: string;
+        time: number;
+    }, mentioned: boolean) => void;
+    addBlook: (blook: string, quantity: number, user2: any) => void;
+    chat: {
+        timeout: number
+    };
+    emojiNames: BlacketTweomji[];
+    currentRoom: BlacketRooms;
+    emojis: { [key: string]: BlacketEmoji };
+    enlargeImage: (url: string) => void;
+    rooms: {
+        [key: BlacketRooms]: {
+            perm: string;
+        };
+    };
+    uploadFile: (file: any) => void;
+
 }
 
 export interface FileIDKWHATTOCALLTHIS {
@@ -213,6 +278,10 @@ export interface Plugin extends PluginDef {
     started: boolean;
 }
 
+export type requires = "@blacket/stats" | "@blacket/credits" | "@blacket/blooks" | "@blacket/market" | "@blacket/bazaar" | "*";
+
+export type requiresPredicate = () => requires[];
+
 export interface PluginDef {
     name: string;
     description: string;
@@ -222,6 +291,7 @@ export interface PluginDef {
     patches?: Omit<Patch, "plugin">[];
     commands?: Command[];
     dependencies?: string[],
+    requires?: requires[] | requiresPredicate;
     required?: boolean;
     page: string | string[];
     [key: string]: any;

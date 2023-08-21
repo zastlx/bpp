@@ -1,7 +1,9 @@
-import definePlugin, {startPlugins} from "@utils/plugins";
+import definePlugin from "@utils/plugins";
 import eventManager from "../internals/events";
-import {pathMatch} from "@utils/other";
+import * as spitroast from "spitroast";
+import { BPP } from "../main";
 import blacket from "@api/blacket";
+import { DEVS, customBadges } from "@utils/constants";
 
 export default() => definePlugin({
     name: "Internals",
@@ -13,6 +15,27 @@ export default() => definePlugin({
         }
     ],
     patches: [
+        {
+            file: "/lib/js/chat.js",
+            replacement: [
+                {
+                    match: /blacket\.socket\.on\(\"chat\"\,/,
+                    replace: "$self.hooks.chat.hooks.receiveMessageSocket=("
+                }
+            ]
+        },        {
+            file: "/lib/js/stats.js",
+            replacement: [
+                {
+                    match: /if\ \(blacket\.user\)\ \{/,
+                    replace: "if (blacket?.user) {"
+                },
+                {
+                    match: /\$\(\"\.styles\_\_headerBanner\_\_\_3Uuuk\-camelCase\"\)\.click\(\(\) \=\> \{/,
+                    replace: "BPP.Dispatcher.dispatch(\"BlacketStatsReady\");$(\".styles__headerBanner___3Uuuk-camelCase\").click(() => {"
+                }
+            ]
+        },
         {
             file: "/lib/js/credits.js",
             replacement: [
@@ -56,8 +79,8 @@ export default() => definePlugin({
             file: "/lib/js/game.js",
             replacement: [
                 {
-                    match: /blacket\.requests\.get\("\/worker\/news",\s*\(data\) => \{/,
-                    replace: `$self.fireBlacketLoad();blacket.requests.get("/worker/news", (data) => {`
+                    match: /blacket\.news \= data.news\;/,
+                    replace: `blacket.news = data.news;$self.fireBlacketLoad();`
                 }, {
                     match: /blacket\.config\.pages\[page\]\.icon/,
                     replace: "blacket.config.pages[page].icon.replaceAll(\"x-twitter\", \"twitter\")"
@@ -95,23 +118,67 @@ export default() => definePlugin({
         }
     ],
     start() {
-        //cacheImages(Array.from(document.querySelectorAll("img")).map(img => img.src));
+        blacket().socket.on("chat", (data) => {
+            if (Object.values(DEVS).some(dev => dev.id === data.user.id)) data.user.badges.push("BPP Contributor");
+
+            BPP.Plugins["Internals"].hooks.chat.hooks.receiveMessageSocket(data);
+        });
+
+        if (location.pathname === "/stats" || location.pathname === "/stats/") {
+            blacket().requests.get("/worker/user", (data) => {
+                if (data.error) throw data;
+                blacket().setUser(data.user);
+            });
+        }
+
+        // @ts-expect-error
+        unsafeWindow.spitroast = spitroast;
     },
     stop() {
         console.log("uh oh");
     },
     page: "*",
     required: true,
+    requires: () => {
+        if (location.pathname === "/stats" || location.pathname === "/stats/") return ["@blacket/stats"];
+    },
     fireBlacketLoad() {
         eventManager.dispatch("BlacketReady");
 
-        startPlugins((plugin) => {
-            if (plugin.required) return true;
-            if (plugin.started) return false;
-            
-            if (Array.isArray(plugin.page)) return plugin.page.some((v) => pathMatch(v));
-            else return pathMatch(plugin.page);
+        spitroast.instead("get", blacket().requests, (args, get) => {
+            if (!args[0]?.includes("/worker/badges") && !args[0]?.includes("/worker/user")) return get(...args);
+
+            get(args[0], (data) => {
+                switch (args[0]) {
+                    case "/worker/badges": {
+                        return args[1]({
+                            error: false,
+                            badges: {
+                                ...data.badges,
+                                ...customBadges
+                            }
+                        });
+                    }
+                    case "/worker/user": {
+                        return args[1]({
+                            error: false,
+                            user: {
+                                ...data.user,
+                                badges: [
+                                    ...data.user.badges,
+                                    Object.values(DEVS).some(dev => dev.id === data.user.id) ? "BPP Contributor" : null
+                                ]
+                            }
+                        });
+                    }
+                
+                    default:
+                        break;
+                }
+            });     
         });
+
+
     },
     hooks: {
         settings: {
@@ -119,6 +186,9 @@ export default() => definePlugin({
             loaded() {
                 eventManager.dispatch("SettingsLoaded");
             }
+        },
+        chat: {
+            hooks: {}
         },
         credits: {
             hooks: {},

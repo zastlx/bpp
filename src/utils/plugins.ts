@@ -5,7 +5,7 @@ import { Plugin, Patch, PluginDef } from "./types";
 
 const definePlugin = (rawPlugin: PluginDef) => {
     const plugins = BPP.Plugins;
-    const patches = BPP.Patches;
+    const patches = BPP.Patcher.patches;
 
     const logger = new Logger("PluginLoader")
 
@@ -24,19 +24,9 @@ const definePlugin = (rawPlugin: PluginDef) => {
         patches.push(...plugin.patches);
     }
 
-    plugins[plugin.name] = plugin;
+    plugins.plugins[plugin.name] = plugin;
 
     return plugin;
 }
 
-const startPlugins = (predicate: (plugin: Plugin) => boolean = (plugin: Plugin) => true) => {
-    for (const pluginKey in BPP.Plugins) {
-        const plugin = BPP.Plugins[pluginKey]; 
-        
-        if (predicate(plugin)) plugin.start();
-        plugin.started = true;
-    }
-};
-
 export default definePlugin;
-export { startPlugins };

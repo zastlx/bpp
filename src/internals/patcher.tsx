@@ -3,17 +3,13 @@ import {
     Logger
 } from "../utils/logger";
 import BPP from "@api/global";
-import {
-    FileIDKWHATTOCALLTHIS,
-    PatchReplacement
-} from "../utils/types";
 
 export default () => {
     const logger = new Logger("Patcher")
     const scripts = Array.from(document.querySelectorAll("script"));
-    const files: FileIDKWHATTOCALLTHIS[] = [];
+    const files = BPP.Patcher.files;
     let errors = 0;
-    const patches = BPP.Patches;
+    const patches = BPP.Patcher.patches;
 
     scripts.forEach(async (script) => {
         try {
@@ -47,15 +43,25 @@ export default () => {
             if (!Array.isArray(patch.replacement)) {
                 const matchRegex = new RegExp(patch.replacement.match, "g");
                 const replaceString = patch.replacement.replace.replaceAll("$self", pluginReference);
-                if (!matchRegex.test(file.data)) return logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`)
+                if (!matchRegex.test(file.data)) {
+                    console.log(file.data);
+                    console.log(file)
+                    logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`);
+                    continue;
+                }
 
                 file.data = file.data.replaceAll(matchRegex, replaceString);
             } else {
                 for (const replacement of patch.replacement) {
                     const matchRegex = new RegExp(replacement.match, "g");
                     const replaceString = replacement.replace.replaceAll("$self", pluginReference);
-                    if (!matchRegex.test(file.data)) return logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`)
-                    
+                    if (!matchRegex.test(file.data)) {
+                        console.log(file.data);
+                        console.log(file)
+                        logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`);
+                        continue;
+                    }
+
                     file.data = file.data.replaceAll(matchRegex, replaceString);
                 }
             }
