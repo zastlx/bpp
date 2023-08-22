@@ -278,7 +278,7 @@ export interface Plugin extends PluginDef {
     started: boolean;
 }
 
-export type requires = "@blacket/stats" | "@blacket/credits" | "@blacket/blooks" | "@blacket/market" | "@blacket/bazaar" | "*";
+export type requires = "@blacket/stats" | "@blacket/credits" | "@blacket/chat" | "@blacket/blooks" | "@blacket/market" | "@blacket/bazaar" | "*";
 
 export type requiresPredicate = () => requires[];
 

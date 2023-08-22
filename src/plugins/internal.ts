@@ -21,6 +21,14 @@ export default() => definePlugin({
                 {
                     match: /blacket\.socket\.on\(\"chat\"\,/,
                     replace: "$self.hooks.chat.hooks.receiveMessageSocket=("
+                },
+                {
+                    match: /\$\(\".styles__chatCurrentRoom___MCaV4-camelCase\"\)\.html\(\"\#global\"\)\;/,
+                    replace: "$(\".styles__chatCurrentRoom___MCaV4-camelCase\").html(\"#global\");BPP.Dispatcher.dispatch(\"@blacket/chat\");"
+                },
+                {
+                    match: /blacket.user && blacket.socket && blacket.socket.emit/,
+                    replace: "this?.blacket?.user && blacket?.socket && blacket?.socket?.emit"
                 }
             ]
         },        {
@@ -28,11 +36,11 @@ export default() => definePlugin({
             replacement: [
                 {
                     match: /if\ \(blacket\.user\)\ \{/,
-                    replace: "if (blacket?.user) {"
+                    replace: "if (this?.blacket?.user) {"
                 },
                 {
-                    match: /\} else setTimeout\(reset\, 1\)\;/,
-                    replace: "BPP.Dispatcher.dispatch(\"@blacket/stats\");} else setTimeout(reset, 1);"
+                    match: /blacket\.setUser\(blacket\.user\)\;/,
+                    replace: "blacket.setUser(blacket.user);BPP.Dispatcher.dispatch(\"@blacket/stats\");"
                 }
             ]
         },
@@ -84,6 +92,10 @@ export default() => definePlugin({
                 }, {
                     match: /blacket\.config\.pages\[page\]\.icon/,
                     replace: "blacket.config.pages[page].icon.replaceAll(\"x-twitter\", \"twitter\")"
+                },
+                {
+                    match: /\(blacket\.config \&\& blacket\.socket \&\& blacket\.socket\.on\)/,
+                    replace: "(this?.blacket?.config && this?.blacket?.socket && this?.blacket.socket.on)"
                 }
             ]
         }, {
@@ -118,11 +130,12 @@ export default() => definePlugin({
         }
     ],
     start() {
-        blacket().socket.on("chat", (data) => {
-            if (Object.values(DEVS).some(dev => dev.id === data.user.id)) data.user.badges.push("BPP Contributor");
-
-            BPP.Plugins.plugins["Internals"].hooks.chat.hooks.receiveMessageSocket(data);
-        });
+        if (location.pathname === "/chat" || location.pathname === "/chat/") {
+            blacket().socket.on("chat", (data) => {
+                if (Object.values(DEVS).some(dev => dev.id === data.user.id)) data.user.badges.push("BPP Contributor");
+                BPP.Plugins.plugins["Internals"].hooks.chat.hooks.receiveMessageSocket(data);
+            });
+        }
 
         if (location.pathname === "/stats" || location.pathname === "/stats/") {
             blacket().requests.get("/worker/user", (data) => {
@@ -141,14 +154,15 @@ export default() => definePlugin({
     required: true,
     requires: () => {
         if (location.pathname === "/stats" || location.pathname === "/stats/") return ["@blacket/stats"];
+        if (location.pathname === "/chat" || location.pathname === "/chat/") return ["@blacket/chat"];
     },
     fireBlacketLoad() {
         eventManager.dispatch("BlacketReady");
 
-        spitroast.instead("get", blacket().requests, (args, get) => {
-            if (!args[0]?.includes("/worker/badges") && !args[0]?.includes("/worker/user")) return get(...args);
+        spitroast.instead("get", blacket().requests, (args, oldGet) => {
+            if (!args[0]?.includes("/worker/badges") && !args[0]?.includes("/worker/user")) return oldGet(...args);
 
-            get(args[0], (data) => {
+            oldGet(args[0], (data) => {
                 switch (args[0]) {
                     case "/worker/badges": {
                         return args[1]({

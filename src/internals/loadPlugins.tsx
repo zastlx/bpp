@@ -3,7 +3,7 @@ import BPP from "@api/global";
 import eventManager from "./events";
 
 export default async () => {
-    const events = ["@blacket/stats", "@blacket/credits", "@blacket/blooks", "@blacket/market", "@blacket/bazaar"];
+    const events = ["@blacket/stats", "@blacket/credits", "@blacket/chat", "@blacket/blooks", "@blacket/market", "@blacket/bazaar"];
     let loadedEvents = [];
 
     eventManager.subscribe("blacket/*", () => {
@@ -13,6 +13,7 @@ export default async () => {
             return true;
         });
     });
+
     for (const event of events) {
         eventManager.subscribe(event, () => {
             loadedEvents.push(event);
@@ -23,6 +24,7 @@ export default async () => {
 
                 if (Array.isArray(plugin.requires)) {
                     console.log(plugin.requires.every((value) => loadedEvents.includes(value)));
+                    console.log
                     return plugin.requires.every((value) => loadedEvents.includes(value));
                 } else {
                     console.log(plugin.requires().every((value) => loadedEvents.includes(value)));
