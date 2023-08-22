@@ -121,5 +121,6 @@ export default() => definePlugin({
     stop() {
         console.log("zastix smells of rat shit");
     },
-    page: ['/blooks', '/blooks/']
+    page: ['/blooks', '/blooks/'],
+    requires: ["@blacket/blooks"]
 });

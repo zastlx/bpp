@@ -31,39 +31,39 @@ export default ({ setPage }) => {
             <InfoContainer icon="fa-pencil-alt" title="Edit Info"> 
                     <div>
                         <a onClick={() => {
-                            BPP.Plugins["Internals"].hooks.settings.hooks.changeUsername();
+                            BPP.Plugins.plugins["Internals"].hooks.settings.hooks.changeUsername();
                         }} className="styles__link___5UR6_-camelCase">Change Username</a>
                     </div>
                     <div>
                         <a onClick={() => {
-                            BPP.Plugins["Internals"].hooks.settings.hooks.changePass();
+                            BPP.Plugins.plugins["Internals"].hooks.settings.hooks.changePass();
                         }} className="styles__link___5UR6_-camelCase">Change Password</a>
                     </div>
                     <div>
                         <a onClick={() => {
-                            BPP.Plugins["Internals"].hooks.settings.hooks.otp();
+                            BPP.Plugins.plugins["Internals"].hooks.settings.hooks.otp();
                         }} className="styles__link___5UR6_-camelCase">Enable OTP / 2FA</a>
                     </div>
             </InfoContainer>
             <InfoContainer icon="fa-cog" title="General">
                 <div>
                     <a onClick={() => {
-                        BPP.Plugins["Internals"].hooks.settings.hooks.tradeRequests();
+                        BPP.Plugins.plugins["Internals"].hooks.settings.hooks.tradeRequests();
                     }} id="tradeRequestsButton" className="styles__link___5UR6_-camelCase">Trade Requests: {blacket().user.settings.friends.charAt(0).toUpperCase() + blacket().user.settings.friends.slice(1)}</a>
                 </div>
                 <div>
                     <a onClick={() => {
-                        BPP.Plugins["Internals"].hooks.settings.hooks.friendRequests();
+                        BPP.Plugins.plugins["Internals"].hooks.settings.hooks.friendRequests();
                     }} id="friendRequestsButton" className="styles__link___5UR6_-camelCase">Friend Requests: {blacket().user.settings.friends.charAt(0).toUpperCase() + blacket().user.settings.friends.slice(1)}</a>
                 </div>
             </InfoContainer>
             {hasPlus(blacket().user) && <InfoContainer icon="fa-star" title="Plus Settings">
             <div>
                 <a onClick={() => {
-                    BPP.Plugins["Internals"].hooks.settings.hooks.changeUsernameColor()
+                    BPP.Plugins.plugins["Internals"].hooks.settings.hooks.changeUsernameColor()
                 }} id="changeUsernameColorButton" className="styles__link___5UR6_-camelCase">Change Username Color</a><br/>
                 <a onClick={() => {
-                    BPP.Plugins["Internals"].hooks.settings.hooks.changeDefaultChatColor()
+                    BPP.Plugins.plugins["Internals"].hooks.settings.hooks.changeDefaultChatColor()
                 }} id="changeDefaultChatColorButton" className="styles__link___5UR6_-camelCase">Change Default Chat Color</a>
             </div>
             </InfoContainer>}

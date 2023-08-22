@@ -17,8 +17,8 @@ const BPP: Global = {
         loadedRequirments: [],
         plugins: [],
         startAll: (predicate = () => true) => {
-            for (const pluginKey in BPP.Plugins) {
-                const plugin = BPP.Plugins[pluginKey];
+            for (const pluginKey in BPP.Plugins.plugins) {
+                const plugin = BPP.Plugins.plugins[pluginKey];
                 
                 if (predicate(plugin)) plugin.start();
                 plugin.started = true;

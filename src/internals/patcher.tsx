@@ -36,7 +36,7 @@ export default () => {
 
         for (const patch of patches) {
             const file = files.find((e) => e.name === patch.file);
-            const pluginReference = `BPP.Plugins["${patch.plugin}"]`;
+            const pluginReference = `BPP.Plugins.plugins["${patch.plugin}"]`;
         
             if (!file) continue
         

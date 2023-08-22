@@ -1,7 +1,7 @@
 import definePlugin from "@utils/plugins";
 import eventManager from "../internals/events";
 import * as spitroast from "spitroast";
-import { BPP } from "../main";
+import BPP from "@api/global";
 import blacket from "@api/blacket";
 import { DEVS, customBadges } from "@utils/constants";
 
@@ -31,8 +31,8 @@ export default() => definePlugin({
                     replace: "if (blacket?.user) {"
                 },
                 {
-                    match: /\$\(\"\.styles\_\_headerBanner\_\_\_3Uuuk\-camelCase\"\)\.click\(\(\) \=\> \{/,
-                    replace: "BPP.Dispatcher.dispatch(\"BlacketStatsReady\");$(\".styles__headerBanner___3Uuuk-camelCase\").click(() => {"
+                    match: /\} else setTimeout\(reset\, 1\)\;/,
+                    replace: "BPP.Dispatcher.dispatch(\"@blacket/stats\");} else setTimeout(reset, 1);"
                 }
             ]
         },
@@ -121,7 +121,7 @@ export default() => definePlugin({
         blacket().socket.on("chat", (data) => {
             if (Object.values(DEVS).some(dev => dev.id === data.user.id)) data.user.badges.push("BPP Contributor");
 
-            BPP.Plugins["Internals"].hooks.chat.hooks.receiveMessageSocket(data);
+            BPP.Plugins.plugins["Internals"].hooks.chat.hooks.receiveMessageSocket(data);
         });
 
         if (location.pathname === "/stats" || location.pathname === "/stats/") {

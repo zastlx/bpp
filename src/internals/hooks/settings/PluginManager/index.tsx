@@ -5,7 +5,7 @@ const PluginManager = ({ setPage }: { setPage: Function }) => {
     return (
         <>
             {Object.keys(BPP.Plugins).map((key) => {
-                const plugin = BPP.Plugins[key];
+                const plugin = BPP.Plugins.plugins[key];
 
                 return <PluginComponent key={key} {...plugin} />;
             })}

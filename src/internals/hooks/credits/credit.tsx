@@ -12,12 +12,12 @@ export default ({role, name, note, img, color, raw, url}: {
     raw: BlacketCredit;
 }) => {
     useEffect(() => {
-        document.querySelectorAll(".styles__creditsCreditName___20Cma-camelCase").forEach((elem) => BPP.Plugins["Internals"].hooks.credits.hooks.scaleText.call(elem))
+        document.querySelectorAll(".styles__creditsCreditName___20Cma-camelCase").forEach((elem) => BPP.Plugins.plugins["Internals"].hooks.credits.hooks.scaleText.call(elem))
     }, []);
     
     return (
         <div onClick={() => {
-            BPP.Plugins["Internals"].hooks.credits.hooks.modal(raw, url ?? `/stats?name=${name}`);
+            BPP.Plugins.plugins["Internals"].hooks.credits.hooks.modal(raw, url ?? `/stats?name=${name}`);
         }} className="styles__creditsCreditContainer___bej3a-camelCase">
             <img className="styles__creditsCreditAvatar___4939A-camelCase" src={img} draggable="false" />
             <div style={{

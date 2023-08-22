@@ -23,7 +23,7 @@ export interface Global {
     Plugins: {
         loadedRequirments: requires[];
         plugins: Plugin[];
-        startAll: (startAllPredicate) => void;
+        startAll: (startAllPredicate: startAllPredicate) => void;
     };
     Patcher: {
         files: FileIDKWHATTOCALLTHIS[];
