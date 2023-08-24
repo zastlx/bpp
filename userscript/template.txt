@@ -12,7 +12,7 @@
 // @match        *://*.blacket.monkxy.com/*
 
 // @grant unsafeWindow
-// @grant GM_xmlhttpRequest
+// @grant GM.xmlHttpRequest
 
 // @run-at document-body
 // ==/UserScript==

@@ -1,14 +1,32 @@
-import BPP from "@api/global"
-import axios from "axios"
-import parseMetaData from "./parsing/parseMetadata"
+import BPP from "@api/global";
+import parseMetaData from "./parsing/parseMetadata";
+import { Logger } from '../utils/logger';
 
 export default async () => {
+    const logger = new Logger("ThemeLoader")
     for (let theme of BPP.Settings.themeLinks) {
-        const { data } = await axios.get(theme);
-        const metaData = parseMetaData(data);
+        // @ts-ignore
+        GM.xmlHttpRequest({
+            method: "GET",
+            url: theme,
+            onload: (res) => {
+                let data = res.responseText;
 
-        const themeStyle = document.createElement("style");
-        themeStyle.id = `bpp-${metaData.id}`;
-        document.head.appendChild(themeStyle);
+                const metaData = parseMetaData(data);
+                try {
+                    metaData.autoimportant = JSON.parse(metaData.autoimportant);
+                } catch (e) {
+                    logger.error("Metadata value \"@autoimportant\" was not \"true\" or \"false\", defaulting to true");
+                    metaData.autoimportant = true;
+                }
+
+                const themeStyle = document.createElement("style");
+                themeStyle.id = `bpp-${metaData.id}`;
+                if (metaData.autoimportant === true || !(typeof metaData.autoimportant === "boolean")) data = data.replaceAll(/([^;{}]*:[^;{}]*);/g, '$1 !important');
+                themeStyle.innerHTML = data; // uhhhhhhhhhhhhhhhhhh its csss righttt???? probably no xss??????? right...........
+
+                document.head.appendChild(themeStyle);
+            }
+        });
     }
 }
