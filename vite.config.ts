@@ -5,7 +5,7 @@ import userscriptCompile from "./userscript/plugin";
 
 export default defineConfig({
     plugins: [
-        react(), cssInjectedByJsPlugin(), userscriptCompile()
+        react(), cssInjectedByJsPlugin()
     ],
     resolve: {
         alias: {

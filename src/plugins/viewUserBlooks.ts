@@ -102,7 +102,7 @@ export default() => definePlugin({
                    });
 
             if (uncatogorizedBlooks.length > 0) {
-              let packId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 16);
+              let packId = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 16);
               _document.querySelector(`.styles__blooksHolder___3qZR1-camelCase`).insertAdjacentHTML('beforeend', `<div class="styles__setHolder___rVq3Z-camelCase"><div class="styles__setTop___wIaVS-camelCase"><div class="styles__setTopBackground___342Wr-camelCase" style="background-image: url('/content/blookTile.png');"></div><div class="styles__setText___1PQLQ-camelCase">Miscellaneous</div><div class="styles__setDivider___3da0c-camelCase"></div></div><div id="${packId}" class="styles__setBlooks___3xamH-camelCase"></div></div>`);
               uncatogorizedBlooks.forEach(blook => {
                 if (!blacket().blooks[blook]) return;
@@ -121,6 +121,5 @@ export default() => definePlugin({
     stop() {
         console.log("zastix smells of rat shit");
     },
-    page: ['/blooks', '/blooks/'],
-    requires: ["@blacket/blooks"]
+    page: "blooks"
 });

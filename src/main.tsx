@@ -4,6 +4,8 @@ import loadPlugins from "./internals/loadPlugins";
 import { Global } from "@utils/types";
 import hooker from "./internals/hooks/hooker";
 import eventManager from "./internals/events";
+import configManager from "./internals/configManager";
+import loadThemes from "internals/loadThemes";
 
 // @ts-expect-error THINGY
 fetch("https://raw.githubusercontent.com/joewalnes/reconnecting-websocket/master/reconnecting-websocket.min.js").then(a => a.text()).then(unsafeWindow.eval)
@@ -15,7 +17,7 @@ const BPP: Global = {
     },
     Plugins: {
         loadedRequirments: [],
-        plugins: [],
+        plugins: {},
         startAll: (predicate = () => true) => {
             for (const pluginKey in BPP.Plugins.plugins) {
                 const plugin = BPP.Plugins.plugins[pluginKey];
@@ -36,7 +38,8 @@ const BPP: Global = {
             return matchRegex.test(file.data);
         }
     },
-    Dispatcher: eventManager
+    Dispatcher: eventManager,
+    Settings: configManager.getConfig()
 };
 //@ts-expect-error define global
 unsafeWindow.BPP = BPP;
@@ -44,3 +47,4 @@ export { BPP };
 
 loadPlugins();
 hooker();
+loadThemes();

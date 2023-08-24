@@ -22,16 +22,31 @@ export default() => definePlugin({
                     match: /blacket\.socket\.on\(\"chat\"\,/,
                     replace: "$self.hooks.chat.hooks.receiveMessageSocket=("
                 },
+                // haha! i shall not follow these rules!
+                {
+                    match: /localStorage\.getItem\(\"lastRulesVersion\"\) \!\= rulesVersion/,
+                    replace: "false"
+                },
                 {
                     match: /\$\(\".styles__chatCurrentRoom___MCaV4-camelCase\"\)\.html\(\"\#global\"\)\;/,
-                    replace: "$(\".styles__chatCurrentRoom___MCaV4-camelCase\").html(\"#global\");BPP.Dispatcher.dispatch(\"@blacket/chat\");"
+                    replace: "$(\".styles__chatCurrentRoom___MCaV4-camelCase\").html(\"#global\");BPP.Dispatcher.dispatch(\"@blacket/pageInit\");"
                 },
                 {
                     match: /blacket.user && blacket.socket && blacket.socket.emit/,
                     replace: "this?.blacket?.user && blacket?.socket && blacket?.socket?.emit"
                 }
             ]
-        },        {
+        },
+        {
+            file: "/lib/js/blooks.js",
+            replacement: [
+                {
+                    match: /blacket\.appendBlooks\(\)\;/,
+                    replace: "blacket.appendBlooks();BPP.Dispatcher.dispatch(\"@blacket/pageInit\");"
+                }
+            ]
+        },
+        {
             file: "/lib/js/stats.js",
             replacement: [
                 {
@@ -40,7 +55,7 @@ export default() => definePlugin({
                 },
                 {
                     match: /blacket\.setUser\(blacket\.user\)\;/,
-                    replace: "blacket.setUser(blacket.user);BPP.Dispatcher.dispatch(\"@blacket/stats\");"
+                    replace: "blacket.setUser(blacket.user);BPP.Dispatcher.dispatch(\"@blacket/pageInit\");"
                 }
             ]
         },
@@ -80,7 +95,7 @@ export default() => definePlugin({
                     replace: "new ReconnectingWebSocket"
                 }, {
                     match: /console\.log\(\`\[Blacket\] Received heartbeat from server\.\`\)\;/,
-                    replace: "BPP.Dispatcher.dispatch(\"BlacketSocketHeartbeat\")"
+                    replace: "BPP.Dispatcher.dispatch(\"@blacket/socket/heartbeat\")"
                 }
             ]
         }, {
@@ -137,9 +152,10 @@ export default() => definePlugin({
             });
         }
 
-        if (location.pathname === "/stats" || location.pathname === "/stats/") {
+        if (location.pathname === "/stats" || location.pathname === "/stats/" && !blacket().getParameter("name")) {
             blacket().requests.get("/worker/user", (data) => {
                 if (data.error) throw data;
+
                 blacket().setUser(data.user);
             });
         }
@@ -150,30 +166,15 @@ export default() => definePlugin({
     stop() {
         console.log("uh oh");
     },
-    page: "*",
+    page: ["*"],
     required: true,
-    requires: () => {
-        if (location.pathname === "/stats" || location.pathname === "/stats/") return ["@blacket/stats"];
-        if (location.pathname === "/chat" || location.pathname === "/chat/") return ["@blacket/chat"];
-    },
     fireBlacketLoad() {
-        eventManager.dispatch("BlacketReady");
-
         spitroast.instead("get", blacket().requests, (args, oldGet) => {
             if (!args[0]?.includes("/worker/badges") && !args[0]?.includes("/worker/user")) return oldGet(...args);
 
             oldGet(args[0], (data) => {
-                switch (args[0]) {
-                    case "/worker/badges": {
-                        return args[1]({
-                            error: false,
-                            badges: {
-                                ...data.badges,
-                                ...customBadges
-                            }
-                        });
-                    }
-                    case "/worker/user": {
+                if (args[0].includes("/worker/user")) {
+                    oldGet(args[0], (data) => {
                         return args[1]({
                             error: false,
                             user: {
@@ -184,15 +185,24 @@ export default() => definePlugin({
                                 ]
                             }
                         });
-                    }
+                    });   
+                }
                 
+                switch (args[0]) {
+                    case "/worker/badges": {
+                        return args[1]({
+                            error: false,
+                            badges: {
+                                ...data.badges,
+                                ...customBadges
+                            }
+                        });
+                    }
                     default:
                         break;
                 }
             });     
         });
-
-
     },
     hooks: {
         settings: {
@@ -207,7 +217,6 @@ export default() => definePlugin({
         credits: {
             hooks: {},
             loaded() {
-                console.log("WEEEEEEEEEEEEEE")
                 eventManager.dispatch("CreditsLoaded");
             }
         }

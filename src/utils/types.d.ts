@@ -14,6 +14,17 @@ export interface Patch {
 }
 
 export type startAllPredicate = (plugin: Plugin) =>  boolean;
+export interface Plugins { [key: string]: Plugin };
+
+export interface Settings {
+    plugins: {
+        [key: string]: {
+            enabled: boolean;
+        }
+    };
+    themeLinks: string[];
+    autoUpdate: boolean;
+}
 
 export interface Global {
     Common: {
@@ -22,7 +33,7 @@ export interface Global {
     };
     Plugins: {
         loadedRequirments: requires[];
-        plugins: Plugin[];
+        plugins: Plugins;
         startAll: (startAllPredicate: startAllPredicate) => void;
     };
     Patcher: {
@@ -31,6 +42,7 @@ export interface Global {
         testPatch: (patch: PatchReplacement, filename: string) => boolean;
     } 
     Dispatcher: EventManager;
+    Settings: Settings;
 }
 
 export interface BlacketPage {
@@ -278,9 +290,7 @@ export interface Plugin extends PluginDef {
     started: boolean;
 }
 
-export type requires = "@blacket/stats" | "@blacket/credits" | "@blacket/chat" | "@blacket/blooks" | "@blacket/market" | "@blacket/bazaar" | "*";
-
-export type requiresPredicate = () => requires[];
+export type pages = "stats" | "credits" | "chat" | "blooks" | "market" | "bazaar" | "leaderboard" | "settings" | "*";
 
 export interface PluginDef {
     name: string;
@@ -291,9 +301,8 @@ export interface PluginDef {
     patches?: Omit<Patch, "plugin">[];
     commands?: Command[];
     dependencies?: string[],
-    requires?: requires[] | requiresPredicate;
     required?: boolean;
-    page: string | string[];
+    page: pages[] | pages;
     [key: string]: any;
 }
 

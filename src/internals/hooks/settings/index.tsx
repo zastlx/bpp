@@ -16,7 +16,7 @@ const Settings = () => {
                 justifyContent: "center"
             }}>
                 {page === 1 ? <NormalSettings setPage={setPage}/> : (
-                    page === 2 ? <PluginManager setPage={setPage}/> : <ThemeManager setPage={setPage}/>
+                    page === 2 ? <PluginManager/> : <ThemeManager/>
                 )}
             </div>
             {page !== 1 && (

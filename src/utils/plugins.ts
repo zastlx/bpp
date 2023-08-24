@@ -25,6 +25,12 @@ const definePlugin = (rawPlugin: PluginDef) => {
     }
 
     plugins.plugins[plugin.name] = plugin;
+    
+    if (!BPP.Settings.plugins[plugin.name]) {
+        BPP.Settings.plugins[plugin.name] = {
+            enabled: plugin.required ? true : false
+        }
+    }
 
     return plugin;
 }

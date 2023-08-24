@@ -44,8 +44,6 @@ export default () => {
                 const matchRegex = new RegExp(patch.replacement.match, "g");
                 const replaceString = patch.replacement.replace.replaceAll("$self", pluginReference);
                 if (!matchRegex.test(file.data)) {
-                    console.log(file.data);
-                    console.log(file)
                     logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`);
                     continue;
                 }
@@ -56,8 +54,6 @@ export default () => {
                     const matchRegex = new RegExp(replacement.match, "g");
                     const replaceString = replacement.replace.replaceAll("$self", pluginReference);
                     if (!matchRegex.test(file.data)) {
-                        console.log(file.data);
-                        console.log(file)
                         logger.log(`Patch by ${patch.plugin} "${matchRegex}" had no effect`);
                         continue;
                     }

@@ -16,13 +16,13 @@ export default (plugin: Plugin) => {
                     if (plugin.required) return;
                     plugin.started = !plugin.started;
 
-                    setStarted(!started);
                     if (started) {
                         plugin.stop();
                     } else {
                         plugin.start();
                     }
-                }} className={`${styles["toggle-switch"]} ${started? styles.checked : ""}`}></div>
+                    setStarted(plugin.started);
+                }} className={`${styles["toggle-switch"]} ${started ? styles.checked : ""}`}></div>
             </div>
             <div
                 className="styles__text___1x37n-camelCase"
