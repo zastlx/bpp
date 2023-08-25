@@ -1,15 +1,13 @@
 import BPP from "@api/global";
 
 const modalElement = document.createElement("div");
-document
-    .body
-    .append(modalElement);
-const root = BPP
-    .Common
-    .ReactDOM
-    .createRoot(modalElement);
+modalElement.className = "arts__modal___VpEAD-camelCase"; 
+modalElement.style.display = "none";
+document.body.append(modalElement);
+const root = BPP.Common.ReactDOM.createRoot(modalElement);
 
-const alertUtil = (title : string, msg : string, onClick : () => void) => {
+const alert = (title: string, msg: string, onClick?: () => void) => {
+    modalElement.style.display = "block";
     root.render(
         <div className="styles__container___1BPm9-camelCase">
             <div className="styles__text___KSL4--camelCase">
@@ -26,16 +24,24 @@ const alertUtil = (title : string, msg : string, onClick : () => void) => {
                         <div
                             className="styles__edge___3eWfq-camelCase"
                             style={{
-                            "backgroundColor": "#2f2f2f"
-                        }}></div>
+                                "backgroundColor": "#2f2f2f"
+                            }}></div>
                         <div
+                            onClick={() => {
+                                root.render(<></>);
+                                modalElement.style.display = "none";
+
+                                if (onClick) onClick();
+                            }}
                             className="styles__front___vcvuy-camelCase styles__buttonInside___39vdp-camelCase"
                             style={{
-                            "backgroundColor": "#2f2f2f"
-                        }}>Okay</div>
+                                "backgroundColor": "#2f2f2f"
+                            }}>Okay</div>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
+
+export { alert as alertUtil };

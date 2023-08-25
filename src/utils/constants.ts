@@ -23,7 +23,7 @@ const customBadges: { [key: string]: BlacketBadge } = {
     }
 };
 
-const Credits = async (): Promise<(BlacketCredit & { url?: string })[]> => [
+const getCredits = async (): Promise<(BlacketCredit & { url?: string })[]> => [
     {
         nickname: "zastix",
         url: "https://zastix.club/",
@@ -47,7 +47,7 @@ const Credits = async (): Promise<(BlacketCredit & { url?: string })[]> => [
     },
 ];
 
-const PeopleIDontLike = [
+const peopleIDontLike = [
     "4891727", // gerchrome
     "3190404", // pig_55
     "5702224", // nachotaco
@@ -63,4 +63,4 @@ const PeopleIDontLike = [
     "3491886", // ash
 ];
 
-export { DEVS, PeopleIDontLike, Credits, customBadges };
+export { DEVS, peopleIDontLike, getCredits as Credits, customBadges };

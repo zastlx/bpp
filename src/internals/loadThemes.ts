@@ -3,7 +3,8 @@ import parseMetaData from "./parsing/parseMetadata";
 import { Logger } from '../utils/logger';
 
 export default async () => {
-    const logger = new Logger("ThemeLoader")
+    const logger = new Logger("ThemeLoader");
+    logger.log("Loading themes...");
     for (let theme of BPP.Settings.themeLinks) {
         // @ts-ignore
         GM.xmlHttpRequest({
@@ -23,7 +24,7 @@ export default async () => {
                 const themeStyle = document.createElement("style");
                 themeStyle.id = `bpp-${metaData.id}`;
                 if (metaData.autoimportant === true || !(typeof metaData.autoimportant === "boolean")) data = data.replaceAll(/([^;{}]*:[^;{}]*);/g, '$1 !important');
-                themeStyle.innerHTML = data; // uhhhhhhhhhhhhhhhhhh its csss righttt???? probably no xss??????? right...........
+                themeStyle.innerHTML = data;
 
                 document.head.appendChild(themeStyle);
             }
