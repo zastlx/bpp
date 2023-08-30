@@ -13,5 +13,8 @@ export default() => definePlugin({
     page: "*",
     start: () => {
         alertUtil("Blooket", "You got hacked!")
+    },
+    stop: () => {
+        alertUtil("Blooket", "You got unhacked!")
     }
 });
