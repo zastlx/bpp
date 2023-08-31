@@ -4,7 +4,7 @@
 // @version      1.0
 // @icon         https://blacket.org/content/logo.png
 
-// @author       zastix, thonk, alicialol
+// @author       zastix, thonk
 // @namespace    https://zastix.club/
 
 // @match        *://*.blacket.org/*

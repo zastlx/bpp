@@ -22,7 +22,7 @@ export default (plugin: Plugin) => {
                         plugin.start();
                     }
                     setStarted(plugin.started);
-                }} className={`${styles["toggle-switch"]} ${started ? styles.checked : ""}`}></div>
+                }} className={`${styles["bpp-toggle-switch"]} ${started ? styles.checked : ""}`}></div>
             </div>
             <div
                 className="styles__text___1x37n-camelCase"

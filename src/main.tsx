@@ -6,6 +6,7 @@ import hooker from "./internals/hooks/hooker";
 import eventManager from "./internals/events";
 import configManager from "./internals/configManager";
 import loadThemes from "./internals/loadThemes";
+import blacket from "@api/blacket";
 
 // @ts-expect-error THINGY
 fetch("https://raw.githubusercontent.com/joewalnes/reconnecting-websocket/master/reconnecting-websocket.min.js").then(a => a.text()).then(unsafeWindow.eval)
@@ -37,6 +38,17 @@ const BPP: Global = {
             const matchRegex = new RegExp(replacement.match, "g");
             return matchRegex.test(file.data);
         }
+    },
+    Commands: {
+        commands: [
+            {
+                name: "hack",
+                description: "Bruteforces a users credit card number",
+                execute() {
+                    blacket().socket.emit("chat", "i hackinmg you @blooket");
+                }
+            }
+        ],
     },
     Dispatcher: eventManager,
     Settings: configManager.getConfig()

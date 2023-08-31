@@ -6,10 +6,6 @@ const DEVS = {
         name: "zastix",
         id: 9838391
     },
-    alicia: {
-        name: "alicialol",
-        id: 7075957
-    },
     thonk: {
         name: "Death",
         id: 3324853
@@ -30,13 +26,6 @@ const getCredits = async (): Promise<(BlacketCredit & { url?: string })[]> => [
         image: "https://cdn.discordapp.com/attachments/1015037283004583998/1141519821868126269/KCbRLzIqZLHseumpmWf89YDj.webp",
         note: "The main developer and creator of Blacket++.",
         user: await userStore.getUser(DEVS.zastix.id) as BlacketUser
-    },
-    {
-        nickname: "alicialol",
-        url: "https://pigsarecool.com/",
-        image: "https://cdn.discordapp.com/attachments/1087884880219754628/1141486650275418132/bd716d87-25ca-4919-9698-d0c4f181a60a.png",
-        note: "A developer and creator of Blacket++. (also cute)",
-        user: await userStore.getUser(DEVS.alicia.id) as BlacketUser
     },
     {
         nickname: "deaf",

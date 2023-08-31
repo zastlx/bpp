@@ -26,6 +26,12 @@ export interface Settings {
     autoUpdate: boolean;
 }
 
+export interface Command {
+    name: string;
+    description: string;
+    execute: (...args) => void;
+}
+
 export interface Global {
     Common: {
         React: typeof React;
@@ -40,7 +46,10 @@ export interface Global {
         files: FileIDKWHATTOCALLTHIS[];
         patches: Patch[];
         testPatch: (patch: PatchReplacement, filename: string) => boolean;
-    } 
+    };
+    Commands: {
+        commands: Command[];
+    };
     Dispatcher: EventManager;
     Settings: Settings;
 }
