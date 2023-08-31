@@ -37,7 +37,6 @@ const getCredits = async (): Promise<(BlacketCredit & { url?: string })[]> => [
 ];
 
 const peopleIDontLike = [
-    "4891727", // gerchrome
     "3190404", // pig_55
     "5702224", // nachotaco
     "4694332", // absentminded
@@ -45,11 +44,8 @@ const peopleIDontLike = [
     "1771952", // mixafyy
     "4526980", // starey
     "5414419", // vinnie
-    "1554351", // dmrd
-    "3179975", // theothers
     "4655236", // og_blax
-    "8807855", // bongus
-    "3491886", // ash
+    "7484308" // erika
 ];
 
 export { DEVS, peopleIDontLike, getCredits as Credits, customBadges };
