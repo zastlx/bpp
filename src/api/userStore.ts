@@ -6,7 +6,7 @@ class UserStore {
     #users: User[] = [];
     loading;
 
-    async getUser(userID: number, reFetch = false): Promise<User> {
+    async getUser(userID: string, reFetch = false): Promise<User> {
         const user = this.#users.find(user => user.id === userID);;
         if (user && !reFetch) return user;
         
@@ -33,11 +33,11 @@ class UserStore {
         return user;
     }
 
-    removeCachedUser(userID: number) {
+    removeCachedUser(userID: string) {
         this.#users = this.#users.filter(user => user.id !== userID);
     }
 
-    updateCachedUser(userID: number, updatedProperties: Partial<BlacketUser>) {
+    updateCachedUser(userID: string, updatedProperties: Partial<BlacketUser>) {
         const userIndex = this.#users.findIndex(user => user.id === userID);
         if (userIndex !== -1) {
             this.#users[userIndex] = {

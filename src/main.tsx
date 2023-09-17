@@ -1,11 +1,11 @@
 import ReactDOM from "react-dom/client";
 import react from "react";
-import loadPlugins from "./internals/loadPlugins";
+import loadPlugins from "@internals/loadPlugins";
 import { Global } from "@utils/types";
-import hooker from "./internals/hooks/hooker";
-import eventManager from "./internals/events";
-import configManager from "./internals/configManager";
-import loadThemes from "./internals/loadThemes";
+import hooker from "@internals/hooks/hooker";
+import eventManager from "@internals/events";
+import configManager from "@internals/configManager";
+import loadThemes from "@internals/loadThemes";
 import blacket from "@api/blacket";
 
 // @ts-expect-error THINGY
@@ -22,7 +22,8 @@ const BPP: Global = {
         startAll: (predicate = () => true) => {
             for (const pluginKey in BPP.Plugins.plugins) {
                 const plugin = BPP.Plugins.plugins[pluginKey];
-                
+
+                plugin?.commands?.forEach((cmd) => BPP.Commands.commands.push(cmd));
                 if (predicate(plugin)) plugin.start();
                 plugin.started = true;
             }

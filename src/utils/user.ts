@@ -2,8 +2,8 @@ import axios from "axios";
 import { BlacketUser, UserBlooks, BlacketBan, BlacketMute, BlacketUserMisc } from "./types";
 axios.defaults.withCredentials = true;
 
-export default class User {
-    id: number;
+export default class User implements BlacketUser {
+    id: string;
     username: string;
     role: string;
     color: string;

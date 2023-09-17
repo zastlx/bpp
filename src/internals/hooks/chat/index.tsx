@@ -1,7 +1,7 @@
 import BPP from "@api/global";
 import CommandComponent from "./command";
 import styles from "./chat.module.css";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const ChatCommands = () => {
     const [visible, setVisible] = useState(false);
@@ -42,9 +42,7 @@ const ChatCommands = () => {
           shorter = s1;
         }
         let longerLength= longer.length;
-        if (longerLength == 0) {
-          return 1.0;
-        }
+        if (longerLength == 0) return 1.0;
         return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength.toString());
     }
 

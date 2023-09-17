@@ -4,11 +4,11 @@ import { BlacketBadge, BlacketCredit, BlacketUser } from "./types";
 const DEVS = {
     zastix: {
         name: "zastix",
-        id: 9838391
+        id: "9838391"
     },
     thonk: {
         name: "Death",
-        id: 3324853
+        id: "3324853"
     }
 };
 
@@ -36,16 +36,4 @@ const getCredits = async (): Promise<(BlacketCredit & { url?: string })[]> => [
     },
 ];
 
-const peopleIDontLike = [
-    "3190404", // pig_55
-    "5702224", // nachotaco
-    "4694332", // absentminded
-    "6654345", // parker
-    "1771952", // mixafyy
-    "4526980", // starey
-    "5414419", // vinnie
-    "4655236", // og_blax
-    "7484308" // erika
-];
-
-export { DEVS, peopleIDontLike, getCredits as Credits, customBadges };
+export { DEVS, getCredits as Credits, customBadges };

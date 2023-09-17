@@ -11,7 +11,8 @@ export default defineConfig({
         alias: {
             "@api": "/src/api",
             "@components": "/src/components",
-            "@utils": "/src/utils"
+            "@utils": "/src/utils",
+            "@internals": "/src/internals"
         }
     },
     build: {

@@ -93,7 +93,7 @@ export interface BlacketUserMisc {
 }
 
 export interface BlacketUser {
-    id: number;
+    id: string;
     username: string;
     role: string;
     color: string;

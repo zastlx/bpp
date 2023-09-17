@@ -1,5 +1,5 @@
 import definePlugin from "@utils/plugins";
-import eventManager from "../internals/events";
+import eventManager from "@internals/events";
 import * as spitroast from "spitroast";
 import BPP from "@api/global";
 import blacket from "@api/blacket";
@@ -64,7 +64,7 @@ export default() => definePlugin({
             replacement: [
                 {
                     match: /blacket\.stopLoading\(\)\;/,
-                    replace: "blacket.stopLoading();$self.hooks.credits.loaded();"
+                    replace: "blacket.stopLoading();BPP.Dispatcher.dispatch(\"@blacket/pageInit\");"
                 },
                 {
                     match: /\$\(\".styles__creditsCreditName___20Cma-camelCase\"\)\.each/,
@@ -118,7 +118,7 @@ export default() => definePlugin({
             replacement: [
                 {
                     match: /\$\(\"#tradeRequestsButton\"\).click\(\(\) \=\> \{/,
-                    replace: `$self.hooks.settings.loaded();$("#tradeRequestsButton").click(() => {`
+                    replace: `BPP.Dispatcher.dispatch(\"@blacket/pageInit\");$("#tradeRequestsButton").click(() => {`
                 }, {
                     match: /\$\(\"\#changePasswordButton\"\)\.click/,
                     replace: "$self.hooks.settings.hooks.changePass="
