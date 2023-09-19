@@ -4,6 +4,8 @@ import { Logger } from '../utils/logger';
 import userStore from "@api/userStore";
 
 export default async () => {
+    [...document.querySelectorAll(`[id*="bpp-theme"]`)].forEach((v) => v.remove());
+
     const logger = new Logger("ThemeLoader");
     logger.log("Loading themes...");
     for (let theme of BPP.Settings.themeLinks) {
@@ -30,7 +32,7 @@ export default async () => {
                 }
 
                 const themeStyle = document.createElement("style");
-                themeStyle.id = `bpp-${metaData.id}`;
+                themeStyle.id = `bpp-theme-${metaData.id}`;
                 if (autoImportant === true || !(typeof metaData.autoimportant === "boolean")) data = data.replaceAll(/([^;{}]*:[^;{}]*);/g, '$1 !important;');
                 themeStyle.innerHTML = data;
                 BPP.Themes.themes.push({
@@ -42,6 +44,7 @@ export default async () => {
                     url: theme,
                     delete: () => {}
                 });
+                BPP.Dispatcher.dispatch("@bpp/update/themes");
 
                 document.head.appendChild(themeStyle);
             }

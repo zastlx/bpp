@@ -74,3 +74,5 @@ export { BPP };
 loadPlugins();
 loadThemes();
 hooker();
+
+window.addEventListener("beforeunload", configManager.syncConfig);

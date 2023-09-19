@@ -1,10 +1,7 @@
 import { Theme } from "@utils/types";
-import { useState } from "react";
 import ThemeBtn from "./themeBtn";
 
 export default (theme: Theme) => {
-    const [started, setStarted] = useState(false);
-
     return (
         <div className="styles__infoContainer___2uI-S-camelCase">
             <div className="styles__headerRow___1tdPa-camelCase">

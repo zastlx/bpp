@@ -1,15 +1,16 @@
-import {ChangeEventHandler, useState} from "react";
+import React, {isValidElement, useState} from "react";
+import { isValidElementType } from "react-is";
 import {Root, createRoot} from "react-dom/client";
 import injectCSS from "./css";
 
 interface ModalInput {
     binding : {
-        value: string;
+        value?: string;
         manual?: boolean;
-        set?: (e: string) => void | ChangeEventHandler <HTMLInputElement>;
+        set?: React.ChangeEventHandler<HTMLInputElement>
     };
-    placeHolder: string;
-    maxLength: number;
+    placeHolder?: string;
+    maxLength?: number;
 }
 
 interface ModalButton {
@@ -20,23 +21,24 @@ const rootElem = document.createElement("div");
 document.body.append(rootElem);
 let root: Root;
 
-const alert = (title : string, desc : string | React.ReactNode, buttons : ModalButton[], inputs?: ModalInput[]) => {
+const alert = (title: string, desc: string | React.ReactNode | React.FC<{setHidden: React.Dispatch<React.SetStateAction<boolean>>}>, buttons?: ModalButton[], inputs?: ModalInput[]) => {
     root?.unmount();
     root = createRoot(rootElem);
-    root.render(<> {
-        typeof desc == "string"
+    root.render(<>{
+        typeof desc == "string" || isValidElementType(desc)
             ? (<_Modal title={title} desc={desc} buttons={buttons} inputs={inputs}/>)
             : (<_Modal title={title} buttons={buttons} inputs={inputs}>{desc}</_Modal>)
     } </>);
 }
 
-const _Modal = ({title, desc, buttons, inputs, children}: {
+const _Modal = ({title, desc: desc, buttons, inputs, children}: {
     title: string;
-    desc?: string | React.ReactNode;
-    buttons: ModalButton[];
+    desc?: string | React.ReactNode | React.FC;
+    buttons?: ModalButton[];
     inputs?: ModalInput[];
     children?: React.ReactNode;
 }) => {
+    const DescElem: React.FC<{setHidden: React.Dispatch<React.SetStateAction<boolean>>}> = desc as React.FC<{setHidden: React.Dispatch<React.SetStateAction<boolean>>}>;
     const [hidden, setHidden] = useState<boolean>(false);
 
     if (hidden) root.unmount();
@@ -45,22 +47,27 @@ const _Modal = ({title, desc, buttons, inputs, children}: {
         <div className="arts__modal___VpEAD-camelCase">
             <div className="styles__container___1BPm9-camelCase">
                 <div className="styles__text___KSL4--camelCase">{title}</div>
-                {desc ? <div style={{"fontSize":"20px","lineHeight":"20px"}} className="styles__text___KSL4--camelCase">{desc}</div> : <div>{children}</div>}
-                <div className="styles__holder___3CEfN-camelCase">
+                {typeof desc === "string" ? <div style={{"fontSize":"20px","lineHeight":"20px"}} className="styles__text___KSL4--camelCase">{desc}</div> : (
+                    isValidElementType(desc) ? (
+                        <DescElem setHidden={setHidden}/>
+                    ) : <>{children}</>
+                )}
+                {(buttons || inputs) && (
+                    <div className="styles__holder___3CEfN-camelCase">
                     <div style={{
                         gap: "10px",
                         flexDirection: "row"
                     }} className="styles__numRow___xh98F-camelCase">
                         {inputs && inputs.map((a, _) => {
                             // @ts-ignore
-                            return (<div className="bpp-input-dad"><input key={_} value={a.binding.value} onChange={a.binding?.manual ? a.binding.set : (e) => a.binding.set(e.target.value)} className="bpp-input" placeholder={a.placeHolder} maxLength={a.maxLength}/></div>);
+                            return (<div className="bpp-input-dad"><input key={_} value={a.binding?.value} onChange={a.binding?.manual ? a.binding.set : (e) => a.binding.set(e.target.value)} className="bpp-input" placeholder={a.placeHolder} maxLength={a.maxLength}/></div>);
                         })}
                     </div>
                     <div style={{
                         gap: "10px",
                         flexWrap: "wrap"
                     }} className="styles__buttonContainer___2EaVD-camelCase">
-                        {buttons.map((btn, _) => {
+                        {buttons && buttons.map((btn, _) => {
                             return (
                             <div onClick={() => btn.click(setHidden)} className="styles__button___1_E-G-camelCase styles__button___3zpwV-camelCase" role="button">
                                 <div className="styles__shadow___3GMdH-camelCase" />
@@ -70,6 +77,7 @@ const _Modal = ({title, desc, buttons, inputs, children}: {
                         })}
                     </div>
                 </div>
+                )}
             </div>
         </div>
     );
