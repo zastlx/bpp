@@ -61,7 +61,7 @@ const BPP: Global = {
         }
     },
     Commands: {
-        commands: [],
+        commands: []
     },
     Dispatcher: eventManager,
     Settings: configManager.getConfig()
