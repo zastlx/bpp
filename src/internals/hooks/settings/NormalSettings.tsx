@@ -1,6 +1,6 @@
 import InfoContainer from "./InfoContainer";
 import blacket from "@api/blacket";
-import hasPlus from "@utils/blacket";
+import { hasPlus } from "@utils/blacket";
 import BPP from "@api/global"
 
 export default ({ setPage }) => {

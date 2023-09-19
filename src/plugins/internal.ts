@@ -181,7 +181,7 @@ export default() => definePlugin({
                                 ...data.user,
                                 badges: [
                                     ...data.user.badges,
-                                    Object.values(DEVS).some(dev => dev.id === data.user.id) ? "BPP Contributor" : null
+                                    Object.values(DEVS).some(dev => dev.id === data.user.id.toString()) ? "BPP Contributor" : null
                                 ]
                             }
                         });

@@ -10,7 +10,7 @@ class UserStore {
         const user = this.#users.find(user => user.id === userID);;
         if (user && !reFetch) return user;
         
-        const { data } = await axios.get("/worker/user/".concat(userID.toString()));
+        const { data } = await axios.get("/worker/user/".concat(userID));
 
         if (data.error) throw data;
         else return this.addToCache(data.user);

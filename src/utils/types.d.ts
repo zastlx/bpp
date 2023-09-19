@@ -1,6 +1,13 @@
 import { EventManager } from "internals/events";
 import ReactDOM from "react-dom/client";
 import React from "react";
+import { Logger } from "./logger";
+import * as other from "./other";
+import * as consts from "./constants";
+import * as blacketUtils from "./blacket";
+import * as logger from "@utils/logger";
+import { alertUtil } from "@api/util";
+import userStore from "@api/userStore";
 
 export interface PatchReplacement {
     match: string | RegExp;
@@ -32,20 +39,43 @@ export interface Command {
     execute: (...args) => void;
 }
 
+export interface Theme {
+    name: string;
+    authors: BlacketUser[];
+    description: string;
+    forcedImportant: boolean;
+    url: string;
+    element: HTMLStyleElement;
+    delete: () => void;
+}
+
 export interface Global {
     Common: {
         React: typeof React;
-        ReactDOM: typeof ReactDOM
+        ReactDOM: typeof ReactDOM;
     };
     Plugins: {
         loadedRequirments: requires[];
         plugins: Plugins;
         startAll: (startAllPredicate: startAllPredicate) => void;
     };
+    Themes: {
+        themes: Theme[];
+    };
+    Utils: {
+        constants: typeof consts;
+        other: typeof other;
+        logger: typeof logger;
+        blacket: typeof blacketUtils;
+    };
     Patcher: {
         files: FileIDKWHATTOCALLTHIS[];
         patches: Patch[];
         testPatch: (patch: PatchReplacement, filename: string) => boolean;
+    };
+    API: {
+        alert: typeof alertUtil;
+        userStore: typeof userStore;
     };
     Commands: {
         commands: Command[];
