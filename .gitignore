@@ -1,7 +1,7 @@
 node_modules/
 dist/
-README.md
 contributing/
+README.md
 bun.lockb
 pnpm-lock.yaml
 .deepsource.toml
