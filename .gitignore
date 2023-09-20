@@ -4,3 +4,4 @@ README.md
 contributing/
 bun.lockb
 pnpm-lock.yaml
+.deepsource.toml
