@@ -9,7 +9,7 @@ export default function userscriptPlugin() {
         name: 'userscript-plugin',
         async closeBundle() {
             const reactAppPath = path.resolve(__dirname, '../dist/compiled.js');
-            const userscriptPath = path.resolve(__dirname, '../dist/bbb.user.js');
+            const userscriptPath = path.resolve(__dirname, '../dist/BPP.user.js');
 
             const userscriptTemplate = fs.readFileSync(path.resolve(__dirname, 'template.txt'), 'utf-8');
             const reactAppCode = fs.readFileSync(reactAppPath, 'utf-8');
