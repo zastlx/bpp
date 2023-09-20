@@ -22,4 +22,6 @@
 5. Run the Tampermonkey and enjoy!
 
 ## Contributing
-If you want to make plugins or contribute in general look at [our guide](https://github.com/zastlx/bpp/blob/main/contributing/GUIDE.md), if you would like to make themes refer to [our theme guide](https://github.com/zastlx/bpp/blob/main/contributing/THEMES.md)
+If you want to make plugins or contribute in general refer to [our guide](https://github.com/zastlx/bpp/blob/main/contributing/GUIDE.md)
+
+##### thanks <3
