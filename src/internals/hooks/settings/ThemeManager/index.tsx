@@ -18,9 +18,7 @@ const ThemeManager = () => {
             }) 
         ]; 
         return () => subs.forEach((unsub) => unsub()); 
-    }, []); 
- 
-    console.log("a", BPP.Themes.themes, themes); 
+    }, []);
  
     return ( 
         <> 

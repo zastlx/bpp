@@ -44,8 +44,8 @@ const _Modal = ({title, desc: desc, buttons, inputs, children}: {
     if (hidden) root.unmount(); 
  
     return ( 
-        <div className="arts__modal___VpEAD-camelCase"> 
-            <div className="styles__container___1BPm9-camelCase"> 
+        <div onClick={() => root.unmount()} className="arts__modal___VpEAD-camelCase"> 
+            <div onClick={(e) => e.stopPropagation()} className="styles__container___1BPm9-camelCase"> 
                 <div className="styles__text___KSL4--camelCase">{title}</div> 
                 {typeof desc === "string" ? <div style={{"fontSize":"20px","lineHeight":"20px"}} className="styles__text___KSL4--camelCase">{desc}</div> : ( 
                     isValidElementType(desc) ? ( 
@@ -69,7 +69,9 @@ const _Modal = ({title, desc: desc, buttons, inputs, children}: {
                     }} className="styles__buttonContainer___2EaVD-camelCase"> 
                         { buttons?.map((btn, _) => { 
                             return ( 
-                            <div onClick={() => btn.click(setHidden)} className="styles__button___1_E-G-camelCase styles__button___3zpwV-camelCase" role="button"> 
+                            <div onClick={() => btn.click(setHidden)} className="styles__button___1_E-G-camelCase styles__button___3zpwV-camelCase" style={{
+                                margin: "unset"
+                            }}> 
                                 <div className="styles__shadow___3GMdH-camelCase" /> 
                                 <div className="styles__edge___3eWfq-camelCase bpp-bg-mainclr" /> 
                                 <div className="styles__front___vcvuy-camelCase styles__buttonInside___39vdp-camelCase bpp-bg-mainclr">{btn.text}</div> 
@@ -94,7 +96,15 @@ injectCSS(`.bpp-input-dad {
     display: flex; 
     flex-direction: row; 
     align-items: center; 
-} 
+}
+
+.styles__container___1BPm9-camelCase {
+    cursor: auto;
+}
+
+.arts__modal___VpEAD-camelCase {
+    cursor: pointer;
+}
  
 .bpp-input { 
     border: none; 
@@ -112,10 +122,6 @@ injectCSS(`.bpp-input-dad {
  
 .bpp-bg-mainclr { 
     background-color: #2f2f2f; 
-} 
- 
-.styles__button___3zpwV-camelCase { 
-    margin: unset; 
 } 
  
 .styles__container___1BPm9-camelCase { 
