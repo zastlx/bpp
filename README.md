@@ -16,7 +16,7 @@
 
 ## Installation
 1. Clone the repository & enter the repository directory.
-2. Install dependencies with your preferred package manager
+2. Install dependencies with your preferred package manager.
 3. Run the build script.
 4. Enter the /dist folder, find the `BPP.user.js` file, and paste it into your preferred userscript extension.
 5. Run the Tampermonkey and enjoy!
