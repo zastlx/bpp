@@ -331,6 +331,27 @@ export interface Plugin extends PluginDef {
 
 export type pages = "stats" | "credits" | "chat" | "blooks" | "market" | "bazaar" | "leaderboard" | "settings" | "*";
 
+/*
+export const enum OptionType {
+    STRING,
+    NUMBER,
+    BIGINT,
+    BOOLEAN,
+    SELECT,
+    SLIDER,
+    COMPONENT,
+}*/
+
+export enum SettingsTypes {
+    STRING = 0,
+    NUMBER = 1,
+    BIGINT = 2,
+    BOOLEAN = 3,
+    DROPDOWN = 4,
+    SLIDER = 5,
+    COMPONENT = 6,
+}
+
 export interface PluginDef {
     name: string;
     description: string;
@@ -342,7 +363,42 @@ export interface PluginDef {
     dependencies?: string[],
     required?: boolean;
     page: pages[] | pages;
+    settings?: {
+        [key: string]: {
+
+        }
+    }
     [key: string]: any;
+}
+
+/*
+    offlineRemovals: {
+        type: OptionType.BOOLEAN,
+        description: "Notify you when starting discord if you were removed while offline.",
+        default: true
+    },
+    */
+
+type PluginSettingValue<T extends SettingsTypes> =
+    T extends SettingsTypes.BOOLEAN ? boolean :
+    T extends SettingsTypes.NUMBER ? number :
+    T extends SettingsTypes.STRING ? string :
+    T extends SettingsTypes.BIGINT ? bigint :
+    T extends SettingsTypes.DROPDOWN ? string :
+    T extends SettingsTypes.SLIDER ? number :
+    T extends SettingsTypes.COMPONENT ? React.FC<any> :
+    any;
+
+type PluginSettingsOptional<T extends SettingsTypes> =
+    T extends SettingsTypes.DROPDOWN ? { display: string; value: string }[] :
+    T extends SettingsTypes.SLIDER ? { min: number; max: number; } :
+    never;
+
+export interface PluginSetting {
+    type: SettingsTypes;
+    description: string;
+    default: PluginSettingValue<this["type"]>;
+    options?: PluginSettingsOptional<this["type"]>;
 }
 
 export interface PluginConfig {

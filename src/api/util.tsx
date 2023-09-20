@@ -75,7 +75,7 @@ const _Modal = ({title, desc: desc, buttons, inputs, children}: {
                                 <div className="styles__shadow___3GMdH-camelCase" /> 
                                 <div className="styles__edge___3eWfq-camelCase bpp-bg-mainclr" /> 
                                 <div className="styles__front___vcvuy-camelCase styles__buttonInside___39vdp-camelCase bpp-bg-mainclr">{btn.text}</div> 
-                            </div>); 
+                            </div>);
                         })} 
                     </div> 
                 </div> 
