@@ -20,7 +20,6 @@
 3. Run the build script.
 4. Enter the /dist folder, find the `BPP.user.js` file, and paste it into your preferred userscript extension.
 5. Run the Tampermonkey and enjoy!
-<be>
 
 ## Contributing
-To contribute check out [our guide](https://github.com/zastlx/bpp/contributing/GUIDE.md)
+If you want to make plugins or contribute in general look at [our guide](https://github.com/zastlx/bpp/blob/main/contributing/GUIDE.md), if you would like to make themes refer to [our theme guide](https://github.com/zastlx/bpp/blob/main/contributing/THEMES.md)
