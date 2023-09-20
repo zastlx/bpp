@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         BBB
-// @description  The next best client modification for blacket.org
-// @version      1.0
+// @name         Blacket++
+// @description  the best client mod for blacket.
+// @version      1.0.0a
 // @icon         https://blacket.org/content/logo.png
 
-// @author       zastix, thonk
-// @namespace    https://zastix.club/
+// @author       zastix & thonk
+// @namespace    https://bpp.thonker.pro
 
 // @match        *://*.blacket.org/*
 // @match        *://*.blacket.xotic.org/*
