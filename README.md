@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Blacket++</h1>
-  <h3>the best client mod for [blacket](https://blacket.org)</h3>
+  <h3>the best client mod for (blacket)[https://blacket.org/]</h3>
   <p>built with ❤️ by zastix & death</p>
 </div>
 <br>
