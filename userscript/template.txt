@@ -5,7 +5,7 @@
 // @icon         https://blacket.org/content/logo.png
 
 // @author       zastix & thonk
-// @namespace    https://bpp.zastix.club/
+// @namespace    https://bpp.zastix.club
 
 // @match        *://*.blacket.org/*
 // @match        *://*.blacket.xotic.org/*
