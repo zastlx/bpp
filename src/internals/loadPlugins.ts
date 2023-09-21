@@ -17,6 +17,6 @@ export default async () => {
 
     logger.log("Loading plugins...");
     // @ts-expect-error should probably make this less cursed evenutally
-    (await Promise.all(Object.values(import.meta.glob("../plugins/*")).map((a) => a()))).map(b => b?.default());
+    (await Promise.all(Object.values(import.meta.glob("../plugins/*/index.ts")).map((a) => a()))).map(b => b?.default());
     (await import("./patcher.ts")).default();
 }
