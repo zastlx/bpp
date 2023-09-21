@@ -25,9 +25,7 @@ export interface Plugins { [key: string]: Plugin };
 
 export interface Settings {
     plugins: {
-        [key: string]: {
-            enabled: boolean;
-        }
+        [key: string]: PluginConfig;
     };
     themeLinks: string[];
     autoUpdate: boolean;
@@ -331,25 +329,13 @@ export interface Plugin extends PluginDef {
 
 export type pages = "stats" | "credits" | "chat" | "blooks" | "market" | "bazaar" | "leaderboard" | "settings" | "*";
 
-/*
-export const enum OptionType {
-    STRING,
-    NUMBER,
-    BIGINT,
-    BOOLEAN,
-    SELECT,
-    SLIDER,
-    COMPONENT,
-}*/
-
 export enum SettingsTypes {
     STRING = 0,
     NUMBER = 1,
-    BIGINT = 2,
-    BOOLEAN = 3,
-    DROPDOWN = 4,
-    SLIDER = 5,
-    COMPONENT = 6,
+    BOOLEAN = 2,
+    DROPDOWN = 3,
+    SLIDER = 4,
+    COMPONENT = 5,
 }
 
 export interface PluginDef {
@@ -363,11 +349,7 @@ export interface PluginDef {
     dependencies?: string[],
     required?: boolean;
     page: pages[] | pages;
-    settings?: {
-        [key: string]: {
-
-        }
-    }
+    settings?: PluginSetting[];
     [key: string]: any;
 }
 
@@ -383,7 +365,6 @@ type PluginSettingValue<T extends SettingsTypes> =
     T extends SettingsTypes.BOOLEAN ? boolean :
     T extends SettingsTypes.NUMBER ? number :
     T extends SettingsTypes.STRING ? string :
-    T extends SettingsTypes.BIGINT ? bigint :
     T extends SettingsTypes.DROPDOWN ? string :
     T extends SettingsTypes.SLIDER ? number :
     T extends SettingsTypes.COMPONENT ? React.FC<any> :
@@ -396,22 +377,27 @@ type PluginSettingsOptional<T extends SettingsTypes> =
 
 export interface PluginSetting {
     type: SettingsTypes;
+    name: string;
     description: string;
     default: PluginSettingValue<this["type"]>;
     options?: PluginSettingsOptional<this["type"]>;
 }
 
-export interface PluginConfig {
+export interface PluginSettingsConfig {
     name: string;
+    value: PluginSettingValue<SettingsTypes>;
+};
+
+export interface PluginConfig {
     enabled: boolean;
-    settings: {
-        [key: string]: any
-    }
+    settings?: PluginSettingsConfig[];
 }
 
 export interface Config {
-    autoUpdate: true;
-    plugins: PluginConfig[];
+    autoUpdate: boolean;
+    plugins: {
+        [key: string]: PluginConfig;
+    }
     themeLinks: string[]; 
 }
 

@@ -12,6 +12,7 @@ import * as blacket from "@utils/blacket";
 import * as logger from "@utils/logger";
 import { alertUtil } from "@api/util";
 import userStore from "@api/userStore";
+import setupSettings from "@internals/setupSettings";
 
 // @ts-expect-error THINGY
 fetch("https://raw.githubusercontent.com/joewalnes/reconnecting-websocket/master/reconnecting-websocket.min.js").then(a => a.text()).then(unsafeWindow.eval)
@@ -64,7 +65,7 @@ const BPP: Global = {
         commands: []
     },
     Dispatcher: eventManager,
-    Settings: configManager.getConfig()
+    Settings: setupSettings()
 };
 
 //@ts-expect-error define global

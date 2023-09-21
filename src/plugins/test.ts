@@ -7,6 +7,14 @@ export default () => definePlugin({
     authors: [DEVS.zastix],
     description: "A testing plugin...",
     page: "*",
+    settings: [
+        {
+            name: "test",
+            type: 1,
+            default: false,
+            description: "Testing setting."
+        }
+    ],
     commands: [
         {
             name: "Test",
