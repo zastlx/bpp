@@ -1,0 +1,9 @@
+{
+    "name": "Testing",
+    "authors": [{
+        "name": "zastix",
+        "avatar": "https://cdn.discordapp.com/avatars/253302259696271360/652c2ce184060982478750824dde192a.png?size=1024"
+    }],
+    "description": "A plugin made for testing.",
+    "banner": ""
+}
