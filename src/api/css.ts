@@ -15,5 +15,17 @@ injectCSS(`.styles__select___4kC90-camelCase {
     border-radius: 0.313vw;
     padding: 0.156vw 1.042vw;
     outline: none;
+}
 
-}`)
+.styles__text___KSL4--camelCase {
+    font-size: 45px !important;
+}
+
+.styles__container___1BPm9-camelCase {
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+    max-width: 700px;
+    min-width: 420px;
+    max-height: 600px;
+}`);
