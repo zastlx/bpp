@@ -1,3 +1,6 @@
+# Deprecated
+This project will not be worked on until the Blacket Rewrite (v3) is out, It will be much easier and faster for us to mod and make this when the rewrite is out.
+
 <div align="center">
   <h1>Blacket++</h1>
   <h3>the best client mod for <a href="https://blacket.org/">blacket</a></h3>
