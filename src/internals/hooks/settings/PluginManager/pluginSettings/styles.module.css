@@ -1,30 +1,35 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.input {
+    font-size: 20px;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+    background-color: #3f3f3f;
+    color: white;
+    border: 2px solid rgba(0, 0, 0, 0.17);
+    border-radius: 5px;
+    outline: none;
+    padding: 5px;
 }
 
 .setting {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    margin-bottom: 25px;
+    gap: 10px;
+    width: 95%;
     align-items: flex-start;
-    gap: 10px;
 }
 
-.settingHeader {
+.settingInfo {
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 10px;
-    margin-bottom: 20px;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
 }
 
-.settingTitle {
+.settingDescription {
+    color: white;
+    margin: 0;
+}
+
+.settingName {
     font-size: 30px;
     width: fit-content;
     text-wrap: nowrap;
@@ -33,32 +38,9 @@
     color: white;
 }
 
-.settingDescription {
-    color: white;
-    margin: 0;
-}
-
-.toggleSwitch {
-    margin-right: 20px;
-}
-
-.select {
-    font-size: 1.302vw;
-    background-color: #3f3f3f;
-    color: white;
-    border: 0.156vw solid rgba(0, 0, 0, 0.17);
-    border-radius: 0.313vw;
-    padding: 0.156vw 1.042vw;
-    outline: none;
-}
-
-.input {
-    font-size: 20px;
-    width: -webkit-fill-available;
-    background-color: #3f3f3f;
-    color: white;
-    border: 2px solid rgba(0, 0, 0, 0.17);
-    border-radius: 5px;
-    outline: none;
-    padding: 5px;
+.settingsContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    align-items: flex-start;
 }

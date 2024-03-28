@@ -333,7 +333,7 @@ export enum SettingsTypes {
     STRING = 0,
     NUMBER = 1,
     BOOLEAN = 2,
-    DROPDOWN = 3,
+    SELECT = 3,
     SLIDER = 4,
     COMPONENT = 5,
 }
@@ -365,13 +365,13 @@ type PluginSettingValue<T extends SettingsTypes> =
     T extends SettingsTypes.BOOLEAN ? boolean :
     T extends SettingsTypes.NUMBER ? number :
     T extends SettingsTypes.STRING ? string :
-    T extends SettingsTypes.DROPDOWN ? string :
+    T extends SettingsTypes.SELECT ? string :
     T extends SettingsTypes.SLIDER ? number :
     T extends SettingsTypes.COMPONENT ? React.FC<any> :
     any;
 
 type PluginSettingsOptional<T extends SettingsTypes> =
-    T extends SettingsTypes.DROPDOWN ? { display: string; value: string }[] :
+    T extends SettingsTypes.SELECT ? { display: string; value: string }[] :
     T extends SettingsTypes.SLIDER ? { min: number; max: number; } :
     never;
 

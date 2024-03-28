@@ -3,7 +3,9 @@ import ThemeBtn from "./themeBtn";
 
 export default (theme: Theme) => {
     return (
-        <div className="styles__infoContainer___2uI-S-camelCase">
+        <div style={{
+            width: "515px"
+        }} className="styles__infoContainer___2uI-S-camelCase">
             <div className="styles__headerRow___1tdPa-camelCase">
                 <div className="styles__infoHeader___1lsZY-camelCase">{theme.name}</div>
                 <div style={{

@@ -17,9 +17,9 @@ injectCSS(`.styles__select___4kC90-camelCase {
     outline: none;
 }
 
-.styles__text___KSL4--camelCase {
-    font-size: 45px !important;
-}
+/* .styles__text___KSL4--camelCase {
+     font-size: 45px !important;
+    }*/ 
 
 .styles__container___1BPm9-camelCase {
     width: -webkit-fill-available;
