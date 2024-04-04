@@ -16,6 +16,7 @@ This project will not be worked on until the Blacket Rewrite (v3) is out, It wil
 - Privacy Protection: B++ has a convenient feature that allows you to appear offline and eliminates any analytics or trackers.
 - BlacketWare Integration: You can use any BlacketWare script within B++ without leaving blacket.
 - Active Support: Thanks to the hardworking support team, any issues or broken plugins are promptly resolved.
+- cute: very cute 10/10 (zastix can we esex in dms later)
 
 ## Installation
 1. Clone the repository & enter the repository directory.
